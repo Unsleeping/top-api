@@ -4,6 +4,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthController } from './auth.controller';
 import { UserModel, UserSchema } from './user.model';
 import { AuthService } from './auth.service';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { getJwtConfig } from 'src/configs/jwt.config';
 
 @Module({
   imports: [
@@ -13,6 +16,11 @@ import { AuthService } from './auth.service';
         schema: UserSchema,
       },
     ]),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getJwtConfig,
+    }),
   ],
   controllers: [AuthController],
   providers: [AuthService],
