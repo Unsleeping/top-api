@@ -20,6 +20,8 @@ import { UserEmail } from '../decorators/user-email-decorator';
 @Controller('review')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
+
+  @UseGuards(JwtAuthGuard)
   @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateReviewDto) {
