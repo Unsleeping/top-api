@@ -25,10 +25,15 @@ export class TopPageService {
 
   async findByCategory(firstCategory: TopLevelCategory) {
     return this.topPageModel
-      .find(
-        { firstCategory },
-        { alias: 1, title: 1, secondCategory: 1 }, // to get only the fields we need
-      )
+      .aggregate([
+        { $match: { firstLevelCategory: firstCategory } },
+        {
+          $group: {
+            _id: '$secondLevelCategory',
+            pages: { $push: { alias: '$alias', title: '$title' } },
+          },
+        },
+      ])
       .exec();
   }
 
