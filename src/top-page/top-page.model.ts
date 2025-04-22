@@ -68,3 +68,4 @@ export class TopPageModel {
 export const TopPageSchema = SchemaFactory.createForClass(TopPageModel);
 
 TopPageSchema.index({ title: 'text', seoText: 'text' });
+// '$**': 'text' - to index all fields
